@@ -3,9 +3,13 @@ from flask import Flask
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    database_path = os.path.join(app.instance_path, 'app.sqlite')
+    if os.environ.get('VERCEL'):
+        database_path = '/tmp/app.sqlite'
+
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'app.sqlite'),
+        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev'),
+        DATABASE=database_path,
     )
 
     if test_config is None:
@@ -23,6 +27,10 @@ def create_app(test_config=None):
     
     from . import db
     db.init_app(app)
+
+    if os.environ.get('VERCEL'):
+        with app.app_context():
+            db.ensure_db()
 
     from . import auth
     app.register_blueprint(auth.bp)

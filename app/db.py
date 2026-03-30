@@ -14,6 +14,28 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
+
+def ensure_db():
+    db = get_db()
+    db.execute(
+        'CREATE TABLE IF NOT EXISTS user ('
+        ' id INTEGER PRIMARY KEY AUTOINCREMENT,'
+        ' username TEXT UNIQUE NOT NULL,'
+        ' password TEXT NOT NULL'
+        ')'
+    )
+    db.execute(
+        'CREATE TABLE IF NOT EXISTS task ('
+        ' id INTEGER PRIMARY KEY AUTOINCREMENT,'
+        ' author_id INTEGER NOT NULL,'
+        ' created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,'
+        ' title TEXT NOT NULL,'
+        ' body TEXT NOT NULL,'
+        ' FOREIGN KEY (author_id) REFERENCES user (id)'
+        ')'
+    )
+    db.commit()
+
 @click.command('init-db')
 def init_db_command():
     init_db()

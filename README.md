@@ -89,6 +89,33 @@ python -m build --wheel
 
 O artefato será criado em `dist/`.
 
+## Deploy na Vercel
+
+Este projeto já está configurado para deploy na Vercel com os arquivos:
+
+- `vercel.json`
+- `api/index.py`
+- `requirements.txt`
+
+### Passo a passo
+
+1. Suba o projeto para um repositório GitHub.
+2. Na Vercel, clique em **Add New Project** e importe o repositório.
+3. Em **Environment Variables**, configure:
+
+- `SECRET_KEY` com um valor forte (recomendado para produção)
+
+4. Faça o deploy.
+
+### Observação importante sobre banco de dados
+
+Atualmente o app usa SQLite. Na Vercel (serverless), o SQLite em `/tmp` é **efêmero**:
+
+- os dados podem ser perdidos entre reinicializações (cold starts)
+- não é adequado para produção com persistência
+
+Para produção, o ideal é migrar para um banco externo (PostgreSQL, por exemplo).
+
 ## Rotas principais
 
 - `GET /` Lista tarefas
@@ -104,3 +131,10 @@ O artefato será criado em `dist/`.
 - O banco SQLite padrão fica em `instance/app.sqlite`.
 - O comando `init-db` recria as tabelas definidas em `app/schema.sql`.
 - Em ambiente de desenvolvimento, a `SECRET_KEY` está definida como `dev`.
+
+## Boas práticas de segurança
+
+- Não comite segredos no repositório (`.env`, chaves, certificados).
+- Use `.env.example` como modelo de variáveis e configure os valores reais no ambiente.
+- Em produção, sempre defina `SECRET_KEY` via variável de ambiente.
+- Se algum segredo já foi versionado no passado, gere um novo valor (rotação).
