@@ -6,16 +6,16 @@ Aplicação web moderna de gerenciamento de tarefas com kanban board estilo Trel
 
 Este projeto implementa um gerenciador de tarefas completo com autenticação e visualização em kanban:
 
-- ✅ Cadastro e login de usuários com segurança
-- ✅ **Kanban Board com 3 colunas**: Started → Developing → Finished
-- ✅ Drag-and-drop para mover tarefas entre colunas
-- ✅ Auto-save de status sem recarregar página
-- ✅ Criação, edição e exclusão de tarefas
-- ✅ Controle de autorização (cada usuário gerencia apenas as próprias tarefas)
-- ✅ Interface web moderna e responsiva
-- ✅ Tema claro/escuro com sincronização em tempo real
-- ✅ Design limpo e profissional (sem emojis)
-- ✅ Testes automatizados com `pytest`
+- Cadastro e login de usuários com segurança
+- **Kanban Board com 3 colunas**: Started → Developing → Finished
+- Drag-and-drop para mover tarefas entre colunas
+- Auto-save de status sem recarregar página
+- Criação, edição e exclusão de tarefas
+- Controle de autorização (cada usuário gerencia apenas as próprias tarefas)
+- Interface web moderna e responsiva
+- Tema claro/escuro com sincronização em tempo real
+- Design limpo e profissional (sem emojis)
+- Testes automatizados com `pytest`
 
 ## Stack
 
@@ -94,7 +94,7 @@ Acesse em: `http://127.0.0.1:5000`
 
 ## Funcionalidades Principais
 
-### 🎯 Kanban Board
+### Kanban Board
 
 Na página principal (após fazer login), você verá um kanban board com 3 colunas:
 
@@ -108,13 +108,13 @@ Na página principal (após fazer login), você verá um kanban board com 3 colu
 3. Clique no ícone ✎ para editar título e descrição
 4. Clique em "New Task" para criar uma nova tarefa
 
-### 🌓 Tema Claro/Escuro
+### Tema Claro/Escuro
 
 - Clique no botão "Dark/Light" na navegação para alternar temas
 - A preferência é salva automaticamente no navegador
 - Responde ao tema do sistema operacional
 
-### 📱 Interface Responsiva
+### Interface Responsiva
 
 - **Desktop**: 3 colunas do kanban lado a lado
 - **Tablet**: 2 colunas por linha
@@ -217,7 +217,7 @@ Este projeto está configurado para deploy na Vercel com os arquivos:
 
 4. Faça o deploy
 
-### ⚠️ Observação importante sobre banco de dados
+### Observação importante sobre banco de dados
 
 Atualmente o app usa SQLite. Na Vercel (serverless), o SQLite em `/tmp` é **efêmero**:
 
@@ -228,7 +228,7 @@ Atualmente o app usa SQLite. Na Vercel (serverless), o SQLite em `/tmp` é **ef�
 
 ## Design & UX
 
-### 🎨 Paleta de Cores
+### Paleta de Cores
 
 **Light Mode:**
 - Fundo: Branco puro (`#ffffff`)
@@ -240,13 +240,13 @@ Atualmente o app usa SQLite. Na Vercel (serverless), o SQLite em `/tmp` é **ef�
 - Texto primário: Cinza claro (`#f5f5f7`)
 - Acentos: Roxo (mantém a mesma paleta)
 
-### 🔤 Tipografia
+### Tipografia
 
 - Font Family: System fonts (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto)
 - Hierarquia clara com pesos 400, 500, 600, 700
 - Excelente contraste e acessibilidade
 
-### ✨ Efeitos
+### Efeitos
 
 - Transições suaves (0.25s - 0.3s)
 - Sombras sutis e realistas
