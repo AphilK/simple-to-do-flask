@@ -207,6 +207,17 @@ nav ul li a:hover {
   transform: translateY(-2px);
 }
 
+/* Dark Mode - Theme Toggle */
+[data-theme="dark"] .theme-toggle {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 /* Content Area */
 .content {
   flex: 1;
