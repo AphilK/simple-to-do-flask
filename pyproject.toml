@@ -13,6 +13,9 @@ build-backend = "flit_core.buildapi"
 [tool.flit.module]
 name = "app"
 
+[project.scripts]
+to-dos = "app:create_app"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
