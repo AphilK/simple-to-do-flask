@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}New Task{% endblock %}
+
+{% block header %}
+  <h1>Create a New Task</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="title">Task Title</label>
+    <input type="text" name="title" id="title" value="{{ request.form['title'] }}" required autofocus placeholder="What needs to be done?">
+    
+    <label for="body">Description</label>
+    <textarea name="body" id="body" placeholder="Add details, notes, or instructions...">{{ request.form['body'] }}</textarea>
+    
+    <input type="submit" value="Create Task">
+</form>
+
+<p style="margin-top: 1.5rem; color: #666;">
+    <a href="{{ url_for('task.index') }}">← Back to Tasks</a>
+</p>
+{% endblock %}

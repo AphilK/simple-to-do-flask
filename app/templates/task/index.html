@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Tasks{% endblock %}
+
+{% block header %}
+  <div>
+    <h1>My Tasks</h1>
+  </div>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('task.create') }}">✚ New Task</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if posts %}
+    {% for post in posts %}
+      <article class="post">
+        <header>
+          <div>
+            <h1>{{ post['title'] }}</h1>
+            <p class="about">by {{ post['username'] }} • {{ post['created'].strftime('%B %d, %Y') }}</p>
+          </div>
+          {% if g.user['id'] == post['author_id'] %}
+            <div style="display: flex; gap: 0.5rem;">
+              <a class="action" href="{{ url_for('task.update', id=post['id']) }}">Edit</a>
+            </div>
+          {% endif %}
+        </header>
+        <p class="body">{{ post['body'] }}</p>
+      </article>
+    {% endfor %}
+  {% else %}
+    <div style="text-align: center; padding: 3rem 2rem; color: #999;">
+      <p style="font-size: 1.1rem; margin-bottom: 1rem;">No tasks yet. Start by creating one!</p>
+      {% if g.user %}
+        <a class="action" href="{{ url_for('task.create') }}">✚ Create Your First Task</a>
+      {% else %}
+        <p><a href="{{ url_for('auth.login') }}">Log in</a> to start managing your tasks</p>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

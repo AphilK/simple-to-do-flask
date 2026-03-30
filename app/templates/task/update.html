@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block header %}
+  <h1>Edit "{{ post['title'] }}"</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="title">Task Title</label>
+    <input type="text" name="title" id="title" value="{{ request.form['title'] or post['title'] }}" required autofocus>
+    
+    <label for="body">Description</label>
+    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    
+    <input type="submit" value="Save Changes">
+</form>
+
+<hr>
+
+<div style="margin-top: 2rem;">
+  <p style="margin-bottom: 1rem; color: #666;">Danger Zone</p>
+  <form action="{{ url_for('task.delete', id=post['id']) }}" method="post" style="max-width: none; padding: 1.5rem; background: #ffebee; border: 1px solid #ffcdd2;">
+    <p style="margin-bottom: 1rem; color: #c62828;">Once you delete a task, there is no going back.</p>
+    <input class="danger" type="submit" value="Delete Task" onclick="return confirm('Are you absolutely sure? This action cannot be undone.');">
+  </form>
+</div>
+
+<p style="margin-top: 1.5rem; color: #666;">
+  <a href="{{ url_for('task.index') }}">← Back to Tasks</a>
+</p>
+{% endblock %}
