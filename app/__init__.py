@@ -17,7 +17,9 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    os.makedirs(app.instance_path, exist_ok=True)
+    # Only create instance directory on non-Vercel environments (Vercel filesystem is read-only)
+    if not os.environ.get('VERCEL'):
+        os.makedirs(app.instance_path, exist_ok=True)
 
     @app.route('/hello')
     def hello():
