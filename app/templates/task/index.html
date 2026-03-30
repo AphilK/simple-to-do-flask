@@ -7,36 +7,71 @@
     <h1>My Tasks</h1>
   </div>
   {% if g.user %}
-    <a class="action" href="{{ url_for('task.create') }}">✚ New Task</a>
+    <a class="action" href="{{ url_for('task.create') }}">New Task</a>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-  {% if posts %}
-    {% for post in posts %}
-      <article class="post">
-        <header>
-          <div>
-            <h1>{{ post['title'] }}</h1>
-            <p class="about">by {{ post['username'] }} • {{ post['created'].strftime('%B %d, %Y') }}</p>
-          </div>
-          {% if g.user['id'] == post['author_id'] %}
-            <div style="display: flex; gap: 0.5rem;">
-              <a class="action" href="{{ url_for('task.update', id=post['id']) }}">Edit</a>
-            </div>
-          {% endif %}
-        </header>
-        <p class="body">{{ post['body'] }}</p>
-      </article>
-    {% endfor %}
-  {% else %}
-    <div style="text-align: center; padding: 3rem 2rem; color: #999;">
-      <p style="font-size: 1.1rem; margin-bottom: 1rem;">No tasks yet. Start by creating one!</p>
-      {% if g.user %}
-        <a class="action" href="{{ url_for('task.create') }}">✚ Create Your First Task</a>
-      {% else %}
-        <p><a href="{{ url_for('auth.login') }}">Log in</a> to start managing your tasks</p>
-      {% endif %}
+{% if g.user %}
+  <!-- Sprint Navigation -->
+  {% if current_sprint %}
+  <div class="sprint-header">
+    <div class="sprint-selector">
+      {% for sprint in all_sprints %}
+      <a href="{{ url_for('task.index', sprint_id=sprint.id) }}"
+         class="sprint-tab {% if sprint.id == current_sprint.id %}active{% endif %}">
+        {{ sprint.name }}
+        <span class="sprint-dates">({{ sprint.start_date.strftime('%b %d') }} - {{ sprint.end_date.strftime('%b %d') }})</span>
+      </a>
+      {% endfor %}
     </div>
+
+    <div class="sprint-info">
+      <span class="sprint-status {{ current_sprint.status }}">{{ current_sprint.status|capitalize }}</span>
+      <span class="sprint-end">Ends: {{ current_sprint.end_date.strftime('%b %d, %Y') }}</span>
+    </div>
+  </div>
   {% endif %}
+
+  <!-- Kanban Board -->
+  <div class="kanban-board">
+    {% set statuses = ['Started', 'Developing', 'Finished'] %}
+
+    {% for status in statuses %}
+      <div class="kanban-column" data-status="{{ status }}">
+        <h2 class="kanban-header">{{ status }}</h2>
+        <div class="kanban-tasks" data-status="{{ status }}">
+          {% set tasks_in_status = posts|selectattr('status', 'equalto', status)|list %}
+
+          {% if tasks_in_status %}
+            {% for post in tasks_in_status %}
+              {% if post['author_id'] == g.user['id'] %}
+              <article class="kanban-task" draggable="true" data-task-id="{{ post['id'] }}" data-status="{{ status }}">
+                <div class="task-header">
+                  <h3 class="task-title">{{ post['title'] }}</h3>
+                  <a href="{{ url_for('task.update', id=post['id']) }}" class="task-edit" title="Edit task">✎</a>
+                </div>
+                {% if post['body'] %}
+                  <p class="task-body">{{ post['body'] }}</p>
+                {% endif %}
+                <p class="task-meta">{{ post['created'].strftime('%b %d, %Y') }}</p>
+              </article>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="kanban-empty">Drop tasks here</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div style="text-align: center; padding: 3rem 2rem;">
+    <p style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-secondary);">Welcome to Task Manager</p>
+    <p style="color: var(--text-tertiary); margin-bottom: 1.5rem;">Organize your tasks with our kanban board and sprints</p>
+    <p><a href="{{ url_for('auth.login') }}" class="action">Log In</a> or <a href="{{ url_for('auth.register') }}" class="action" style="margin-left: 0.5rem;">Register</a> to get started</p>
+  </div>
+{% endif %}
+
+<script src="{{ url_for('static', filename='kanban.js') }}"></script>
 {% endblock %}

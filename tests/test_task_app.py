@@ -10,7 +10,7 @@ def test_index(client, auth):
     response = client.get('/')
     assert b'Logout' in response.data
     assert b'test title' in response.data
-    assert b'by test \xe2\x80\xa2 January 01, 2018' in response.data
+    assert b'Jan 01, 2018' in response.data
     assert b'test\nbody' in response.data
     assert b'href="/1/update"' in response.data
 
